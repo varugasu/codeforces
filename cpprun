@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <cpp_file> [args...]"
+    exit 1
+fi
+
+cpp_file=$1
+shift
+temp_exe=$(mktemp)
+
+g++ -std=c++17 "$cpp_file" -o "$temp_exe" && "$temp_exe" "$@"
+exit_code=$?
+rm -f "$temp_exe"
+exit $exit_code
