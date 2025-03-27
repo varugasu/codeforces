@@ -5,7 +5,9 @@ const int ALPHABET_LENGTH{26};
 
 class LetterCounter {
  private:
-  int hashmap[ALPHABET_LENGTH] = {0};
+  /// using boolean saves more memory because we only use 1 bit per letter
+  // instead of 4 bytes (integers) per letter
+  bool hashmap[ALPHABET_LENGTH] = {false};
   int uniqueLetters{0};
 
   int hash(char c) const { return c % ALPHABET_LENGTH; }
@@ -13,8 +15,10 @@ class LetterCounter {
  public:
   void insert(char c) {
     int index{hash(c)};
-    hashmap[index]++;
-    if (hashmap[index] == 1) uniqueLetters++;
+    if (!hashmap[index]) {
+      hashmap[index] = true;
+      uniqueLetters++;
+    }
   }
 
   int getUniqueLettersCount() { return uniqueLetters; }
